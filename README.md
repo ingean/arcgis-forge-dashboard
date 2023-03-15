@@ -1,4 +1,4 @@
-# arcgis-calcite-template
+# arcgis-forge-dashboard
 Template for a ArcGIS JS 4 mapping web app using [calcite](https://developers.arcgis.com/calcite-design-system/) components
 
 ## Themes
