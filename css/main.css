@@ -25,6 +25,34 @@ calcite-loader {
   flex-direction: row;
 }
 
+.flex-item {
+  flex: 1 1 0px;
+}
+
+.header-filters {
+  margin-left: 200px;
+  align-items: center;
+}
+
+.header-filter-select {
+  margin: 10px;
+  align-items: center;
+}
+
+#GISviewDiv {
+  position:absolute;
+  left: 0;
+  height: 100%;
+  width: 50%;
+}
+
+#BIMviewDiv {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 50%;
+}
+
 #header-title {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -46,12 +74,4 @@ calcite-loader {
 .theme-icon {
   padding: 0.5rem;
   cursor: pointer;
-}
-
-#info-content {
-  padding: 0.75rem;
-}
-
-calcite-rating {
-  margin-top: 0.25rem;
 }

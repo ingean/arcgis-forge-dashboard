@@ -10,18 +10,57 @@
 
     <script type="module" src="https://js.arcgis.com/calcite-components/1.0.7/calcite.esm.js"></script>
     <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.0.7/calcite.css" />
+
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css" />
   
-    <link id="jsapi-theme-light" rel="stylesheet" href="https://js.arcgis.com/4.26/@arcgis/core/assets/esri/themes/light/main.css" disabled>
-    <link id="jsapi-theme-dark" rel="stylesheet" href="https://js.arcgis.com/4.26/@arcgis/core/assets/esri/themes/dark/main.css" />
+    <link id="arcgis-sdk-theme-light" rel="stylesheet" href="https://js.arcgis.com/4.26/@arcgis/core/assets/esri/themes/light/main.css" disabled>
+    <link id="arcgis-sdk-theme-dark" rel="stylesheet" href="https://js.arcgis.com/4.26/@arcgis/core/assets/esri/themes/dark/main.css" />
   
     <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/slidesWidget.css" />
+    <link rel="stylesheet" href="./css/chart.css" />
   </head>
   <body>
-    <div id="calcite-theme" class="calcite-theme-dark">
-
+    <div id="calcite-theme" class="calcite-mode-dark">
+     
       <calcite-shell content-behind>
         <div id="title-toolbar" slot="header" class="flex-row">
           <h2 id="header-title"></h2>
+
+          <div class="header-filters flex-row">
+            <div class="header-filter-select flex-row">
+              <calcite-icon icon="clock-forward" text-label="Velg fase"></calcite-icon>
+              <calcite-select id="phase-select" label="Velg fase">
+                <calcite-option value="1">Fase 1</calcite-option>
+                <calcite-option value="2">Fase 2</calcite-option>
+                <calcite-option value="3">Fase 3</calcite-option>
+                <calcite-option value="4">Fase 4</calcite-option>
+                <calcite-option value="5">Fase 5</calcite-option>
+                <calcite-option value="6">Fase 6</calcite-option>
+                <calcite-option value="7">Fase 7</calcite-option>
+              </calcite-select>    
+            </div>
+            <div class="header-filter-select flex-row">
+              <calcite-icon icon="bookmark" text-label="360 degree view"></calcite-icon>
+              <calcite-select id="section-select" label="Velg parsell">
+                <calcite-option value="1" disabled>P 01</calcite-option>
+                <calcite-option value="2" disabled>P 02</calcite-option>
+                <calcite-option value="3">P 03</calcite-option>
+                <calcite-option value="4" disabled>P 04</calcite-option>
+                <calcite-option value="5" selected>P 05</calcite-option>
+                <calcite-option value="6" disabled>P 06</calcite-option>
+                <calcite-option value="7">P 07</calcite-option>
+                <calcite-option value="8" disabled>P 08</calcite-option>
+                <calcite-option value="9">P 09</calcite-option>
+                <calcite-option value="10">P 10</calcite-option>
+                <calcite-option value="11" disabled>P 11</calcite-option>
+                <calcite-option value="12" disabled>P 12</calcite-option>
+                <calcite-option value="13" disabled>P 13</calcite-option>
+                <calcite-option value="14" disabled>P 14</calcite-option>
+              </calcite-select>
+            </div>
+          </div>
+
           <div id="signin"></div>
           <div id="theme-switcher">
             <calcite-label disable-spacing layout="inline">
@@ -31,21 +70,19 @@
             </calcite-label>
           </div>
         </div>
-
-        <calcite-loader active></calcite-loader>
-
-        <calcite-shell-panel slot="primary-panel" detached>
-  
+        
+        <calcite-loader id="main-loader" active></calcite-loader>
+    
+        <calcite-shell-panel slot="panel-start" detached>
+      
           <calcite-action-bar slot="action-bar" intl-collapse="Minimere" intl-expand="Maksimere">
             <calcite-action data-action-id="layers" icon="layers" text="Kartlag"></calcite-action>
             <calcite-action data-action-id="basemaps" icon="basemap" text="Bakgrunnskart"></calcite-action>
             <calcite-action data-action-id="legend" icon="legend" text="Tegnforklaring"></calcite-action>
-            <calcite-action data-action-id="bookmarks" icon="bookmark" text="Bokmerker"></calcite-action>
-            <calcite-action data-action-id="print" icon="print" text="Utskrift"></calcite-action>
-            <calcite-action data-action-id="information" icon="information" text="Informasjon"></calcite-action>
+            <calcite-action data-action-id="slides" icon="slideshow" text="Lysbilder"></calcite-action>
           </calcite-action-bar>
-  
-          <!-- map-specific panels (each one provides a div for JS API widgets) -->
+    
+          <!-- Panels for each map widget -->
           <calcite-panel heading="Kartlag" height-scale="l" width-scale="m" data-panel-id="layers" hidden>
             <div id="layers-container"></div>
           </calcite-panel>
@@ -55,37 +92,95 @@
           <calcite-panel heading="Tegnforklaring" height-scale="l" width-scale="m" data-panel-id="legend" hidden>
             <div id="legend-container"></div>
           </calcite-panel>
-          <calcite-panel heading="Bokmerker" height-scale="l" width-scale="m" data-panel-id="bookmarks" hidden>
-            <div id="bookmarks-container"></div>
+          <calcite-panel heading="Lysbilder" height-scale="l" width-scale="m" data-panel-id="slides" hidden>
+            <div id="slides-container"></div>
           </calcite-panel>
-          <calcite-panel heading="Utskrift" height-scale="l" width-scale="m" data-panel-id="print" hidden>
-            <div id="print-container"></div>
-          </calcite-panel>
-  
-          <!-- info panel (populates with info from the web map) -->
-          <calcite-panel heading="Informasjon" data-panel-id="information" hidden>
-            <div id="info-content">
-              <img id="item-thumbnail" />
-              <div id="item-description">
-                <!--dynamically populated-->
-              </div>
-              <calcite-label layout="inline">
-                <b>Vurdering:</b>
-                <calcite-rating read-only>
-                  <!--dynamically populated-->
-                </calcite-rating>
-              </calcite-label>
-            </div>
-          </calcite-panel>
-  
         </calcite-shell-panel>
-  
-        <div id="viewDiv"></div>
-  
+         
+        <div id="GISviewDiv"></div>
+        <div id="BIMviewDiv"></div> 
+   
+        <calcite-panel heading="Prosjektfremdrift" id="dashboard-container" slot="footer" resizable>
+          <calcite-icon icon="dashboard" text="Dashboard" slot="header-actions-start"></calcite-icon>
+          
+          <calcite-tabs>
+            <calcite-tab-nav slot="title-group">
+                <calcite-tab-title selected>Terrengendringer</calcite-tab-title>
+                <calcite-tab-title>Utbygging</calcite-tab-title>
+                <calcite-tab-title>Massetransport <calcite-chip scale="s">Live</calcite-chip></calcite-tab-title>
+            </calcite-tab-nav>
+            <calcite-tab selected>
+
+              <calcite-tile-group layout="vertical">
+                <calcite-tile heading="Faktisk utgravd" description="Masse fjernet i fasen">
+                  <calcite-chip id="volume-removed" slot="content-end" icon="cut-and-fill-volume-calculation" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
+                </calcite-tile>
+                <calcite-tile heading="Faktisk utfylt" description="Masse utfylt i fasen">
+                  <calcite-chip id="volume-added" slot="content-end" icon="cut-and-fill-volume-calculation" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
+                </calcite-tile>
+                <calcite-tile heading="Gjenstående" description="Total masse som må fjernes">
+                  <calcite-chip id="volume-remaining" slot="content-end" icon="cut-and-fill-volume-calculation" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
+                </calcite-tile>
+                <calcite-tile heading="Ferdigstillelse" description="Prosent utført">
+                  <calcite-chip id="volume-progress" slot="content-end" icon="cut-and-fill-volume-calculation" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
+                </calcite-tile>
+              </calcite-tile-group>
+
+              <div class="flex-row">
+                <div class="db-chart-container">
+                  <canvas id="volume-chart" class=""></canvas>
+                </div>
+              </div>
+              
+            </calcite-tab>
+            <calcite-tab>
+
+              <calcite-tile-group layout="vertical">
+                <calcite-tile heading="Antall deler" description="Deler som skal monteres i fasen">
+                  <calcite-chip id="bim-parts-count" slot="content-end" icon="graph-histogram" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
+                </calcite-tile>
+                <calcite-tile heading="Volum" description="Volumet av deler som skal monteres i fasen">
+                  <calcite-chip id="bim-parts-volume" slot="content-end" icon="graph-histogram" scale="l"><calcite-loader scale="s" active ></calcite-loader></calcite-chip>
+                </calcite-tile>
+              </calcite-tile-group>
+              <div class="flex-row">
+                <div class="db-chart-container">
+                  <canvas id="bim-parts-count-chart" class=""></canvas>
+                </div>
+                <div class="db-chart-container">
+                  <canvas id="bim-parts-volume-chart" class=""></canvas>
+                </div>
+              </div>
+            </calcite-tab>
+
+            <calcite-tab>
+           
+              <calcite-tile-group layout="vertical">
+                <calcite-tile heading="Antall kjøretøy" description="Aktive maskiner">
+                  <calcite-chip id="vehicles-count" slot="content-end" icon="car" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
+                </calcite-tile>
+                <calcite-tile heading="Sum last" description="Masse i transport">
+                  <calcite-chip id="vehicles-volume-sum" slot="content-end" icon="car" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
+                </calcite-tile>
+                <calcite-tile heading="Høyeste hastighet" description="Vises i rødt ved fartsovertredelser">
+                  <calcite-chip id="vehicles-speed-max" slot="content-end" icon="car" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
+                </calcite-tile>
+              </calcite-tile-group>
+            
+              <div class="db-list-container">
+                <calcite-list id="vehicles-list" selection-mode="single"></calcite-list>
+              </div>
+              
+            </calcite-tab>
+        </calcite-tabs>
+
+        </calcite-panel> <!-- Dashboard panel -->
+      
       </calcite-shell>
   
-    </div>
+    </div> <!-- Calcite theme -->
   </body>
-  <script type="module" src="js/main.js"> 
-  </script>
+  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <script src="js/lib/chart.min.js"></script>
 </html>

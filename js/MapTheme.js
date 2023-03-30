@@ -29,10 +29,10 @@ export default class MapTheme {
 
   toggleThemes = () => {
     // calcite theme
-    document.querySelector('#calcite-theme').classList.toggle("calcite-theme-dark")
+    document.body.classList.toggle("calcite-mode-dark")
     // jsapi theme
-    const dark = document.querySelector("#jsapi-theme-dark")
-    const light = document.querySelector("#jsapi-theme-light")
+    const dark = document.querySelector("#arcgis-sdk-theme-dark")
+    const light = document.querySelector("#arcgis-sdk-theme-light")
     dark.disabled = !dark.disabled
     light.disabled = !light.disabled
     // jsapi basemap color
