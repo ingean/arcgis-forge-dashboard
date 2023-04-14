@@ -165,3 +165,31 @@ export const addStreamLayers = (view) => {
   getStreamData(view, maskinLayer)  
 }
 
+export const addMaskinLayer = (streamLayer, view) => {
+  if (!streamLayer) {
+    streamLayer = createStreamLayer(streamServiceURL, rendererMaskin, "relative-to-scene", 1)
+  }
+
+  view.map.addMany([streamLayer])
+  getStreamData(view, streamLayer)
+  return streamLayer  
+}
+
+export const addMaskinLayer2 = (streamLayer, view) => {
+  if (!streamLayer) {
+    streamLayer = createStreamLayer(streamServiceURL2, rendererMaskin2, "relative-to-ground", 3)
+  }
+
+  view.map.addMany([streamLayer])
+  return streamLayer
+}
+
+export const addVolumeLayer = (streamLayer, view) => {
+  if (!streamLayer) {
+    streamLayer = createStreamLayer(streamServiceURL, pointsRenderer, "relative-to-scene", 1, labelClass)
+  }
+
+  view.map.addMany([streamLayer])
+  return streamLayer
+}
+
