@@ -1,7 +1,7 @@
 import { isolatePhase, loadDocument } from './BIMViewer.js'
-import { updateVolumeVisualizations } from './VolumeVisualizations.js'
+import { updateVolumeVisualizations } from './dashboard/VolumeVisualizations.js'
 import { zoomToSlide } from './main.js'
-import { updateBIMTiles } from './BIMVisualizations.js'
+import { updateBIMTiles } from './dashboard/BIMVisualizations.js'
 import { sections } from './config.js'
 
 export const onSectionChange = () => {

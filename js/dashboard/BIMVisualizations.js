@@ -1,5 +1,5 @@
-import { modelProperties } from "./BIMViewer.js"
-import { drawBarChart } from "./utils/chart.js"
+import { modelProperties } from "../BIMViewer.js"
+import { createBarChart } from "../utils/chart.js"
 
 const updateCountBarChart = () => {
   let parts = modelProperties?.parts
@@ -9,7 +9,7 @@ const updateCountBarChart = () => {
     labels.push('Fase ' + i)
     data.push(parts[i].length)
   }
-  drawBarChart('bim-parts-count-chart', 'Deler pr fase', labels, data)
+  createBarChart('bim-parts-count-chart', {title: 'Deler pr fase', label: "Antall", labels, data})
 }
 
 const updateVolumeBarChart = () => {
@@ -20,12 +20,12 @@ const updateVolumeBarChart = () => {
     labels.push('Fase ' + i)
     data.push(volume[i])
   }
-  drawBarChart('bim-parts-volume-chart', 'Volum pr fase', labels, data)
+  createBarChart('bim-parts-volume-chart', {title: 'Volum pr fase', label: "Volum", labels, data})
 }
 
 export const updateBIMTiles = () => {
   let phase = Number(document.getElementById('phase-select').value)
-  phase -= 1
+  //phase -= 1
   
   let count = modelProperties?.parts?.[phase]
   count = count ? count.length : 0 

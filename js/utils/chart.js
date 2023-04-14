@@ -1,9 +1,7 @@
-import { mergeDeep } from './object.js'
+import { mergeDeep, copyDeep } from './object.js'
 
 const defaultChartOptions = {
   options: {
-    //maintainAspectRatio: false,
-    //responsive: false,
     title: {
       text: "title",
       display: true,
@@ -13,14 +11,19 @@ const defaultChartOptions = {
       fontStyle: 'normal',
       fontColor: 'rgba(241, 241, 241, 1)'
     },
-    legend: {
-      display: false
-    }
+    legend: { display: false },
+    animation: false
   }
 }
 
 const pieChartOptions = {
   type: 'doughnut',
+  options: {
+    legend: { 
+      display: true,
+      position: 'bottom' 
+    }
+  },
   data: {
     datasets: [{
       backgroundColor: [
@@ -43,7 +46,6 @@ const barChartOptions = {
   type: 'bar',
   data: {
     datasets: [{
-      label: 'Antall deler',
       backgroundColor: 'rgba(90, 189, 249, 0.2)',
       borderColor: 'rgba(90, 189, 249, 1)',
       borderWidth: 1
@@ -60,20 +62,27 @@ const barChartOptions = {
   }
 }
 
-const drawChart = (chartOptions, id, title, labels, data) => {
+const createChart = (chartOptions, id, params) => {
   let options = mergeDeep(defaultChartOptions, chartOptions)
-  options.data.datasets[0].data = data
-  options.data.labels = labels
-  options.options.title.text = title
-
+  options.data.datasets[0].data = params.data
+  options.data.datasets[0].label = params.label
+  options.data.labels = params.labels
+  options.options.title.text = params.title
+  
   const chartElement = document.getElementById(id)
-  const chart = new Chart(chartElement, options)
+  return new Chart(chartElement, copyDeep(options))
 }
 
-export const drawPieChart = (id, title, labels, data) => {
-  drawChart(pieChartOptions, id, title, labels, data)
+export const updateChart = (chart, labels, data) => {
+  chart.data.datasets[0].data = data
+  chart.data.labels = labels
+  chart.update()
+} 
+
+export const createPieChart = (id, params) => {
+  return createChart(pieChartOptions, id, params)
 }
 
-export const drawBarChart = (id, title, labels, data) => {
-  drawChart(barChartOptions, id, title, labels, data)
+export const createBarChart = (id, params) => {
+  return createChart(barChartOptions, id, params)
 }

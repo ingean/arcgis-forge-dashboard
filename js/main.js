@@ -7,7 +7,8 @@ import * as SlidesWidget from './slidesWidget.js'
 import * as BIMViewer from './BIMViewer.js'
 import { addStreamLayers } from './streamService.js'
 import { onPhaseChange, onSectionChange } from './changeSelection.js'
-import { updateVolumeVisualizations } from './VolumeVisualizations.js'
+import { updateVolumeVisualizations } from './dashboard/VolumeVisualizations.js'
+import { updateDitioVisualizations, getDitioDataPage } from './dashboard/DitioVisualizations.js'
 import { sections } from './config.js'
 
 
@@ -43,6 +44,10 @@ export const zoomToSlide = (slideNr) => {
   slide.applyTo(view)
 }
 
+export const zoomTo = (extent) => {
+  view.goTo(extent)
+}
+
 
 const theme = new MapTheme(view, false) // Contains light and dark basemap
 const actionBar = new ActionBar(view)
@@ -51,15 +56,28 @@ BIMViewer.init()
 addStreamLayers(view)
 updateVolumeVisualizations()
 
+let ditioLayer 
+
 scene.when(() => {
   SlidesWidget.init(view, 'slides-container')
-  document.querySelector("#header-title").textContent = "E16 Åsbygda - Olum"
   document.querySelector("calcite-shell").hidden = false
   document.querySelector("#main-loader").hidden = true
+  ditioLayer = view.map.allLayers.find((layer) => {
+    return layer.title === "DitioBilder"
+   })
+  updateDitioVisualizations(ditioLayer)
 })
+
+document.querySelector("#header-title").textContent = "E16 Åsbygda - Olum"
 
 document.getElementById('section-select')
 .addEventListener('calciteSelectChange', onSectionChange)
 
 document.getElementById('phase-select')
 .addEventListener('calciteSelectChange', onPhaseChange)
+
+document.getElementById("ditio-images-list-pager")
+.addEventListener("calcitePaginationChange", (event) => {
+  let page = (event.target.startItem === 1) ? 0 : event.target.startItem            
+  getDitioDataPage(ditioLayer, page)
+})

@@ -18,7 +18,7 @@
   
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/slidesWidget.css" />
-    <link rel="stylesheet" href="./css/chart.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
   </head>
   <body>
     <div id="calcite-theme" class="calcite-mode-dark">
@@ -100,14 +100,16 @@
         <div id="GISviewDiv"></div>
         <div id="BIMviewDiv"></div> 
    
-        <calcite-panel heading="Prosjektfremdrift" id="dashboard-container" slot="footer" resizable>
+        <calcite-panel heading="Prosjektfremdrift" id="dashboard-container" slot="footer">
           <calcite-icon icon="dashboard" text="Dashboard" slot="header-actions-start"></calcite-icon>
           
           <calcite-tabs>
             <calcite-tab-nav slot="title-group">
                 <calcite-tab-title selected>Terrengendringer</calcite-tab-title>
                 <calcite-tab-title>Utbygging</calcite-tab-title>
-                <calcite-tab-title>Massetransport <calcite-chip scale="s">Live</calcite-chip></calcite-tab-title>
+                <calcite-tab-title>Massetransport 
+                  <calcite-chip scale="s" class="db-chip">Live</calcite-chip>
+                </calcite-tab-title>
             </calcite-tab-nav>
             <calcite-tab selected>
 
@@ -127,8 +129,14 @@
               </calcite-tile-group>
 
               <div class="flex-row">
-                <div class="db-chart-container">
-                  <canvas id="volume-chart" class=""></canvas>
+                <div class="db-card db-card-chart">
+                  <canvas id="volume-chart" class="pie-chart"></canvas>
+                </div>
+                <div class="db-card db-card-chart">
+                  <canvas id="volume-chart-removed" class="bar-chart"></canvas>
+                </div>
+                <div class="db-card db-card-chart">
+                  <canvas id="volume-chart-added" class="bar-chart"></canvas>
                 </div>
               </div>
               
@@ -142,13 +150,21 @@
                 <calcite-tile heading="Volum" description="Volumet av deler som skal monteres i fasen">
                   <calcite-chip id="bim-parts-volume" slot="content-end" icon="graph-histogram" scale="l"><calcite-loader scale="s" active ></calcite-loader></calcite-chip>
                 </calcite-tile>
+                <calcite-tile heading="Antall bilder" description="Bilder fra byggeplassen, hentet fra Ditio">
+                  <calcite-chip id="ditio-images-count" slot="content-end" icon="camera" scale="l"><calcite-loader scale="s" active ></calcite-loader></calcite-chip>
+                </calcite-tile>
               </calcite-tile-group>
+              
               <div class="flex-row">
-                <div class="db-chart-container">
-                  <canvas id="bim-parts-count-chart" class=""></canvas>
+                <div class="db-card db-card-chart">
+                  <canvas id="bim-parts-count-chart" class="bar-chart"></canvas>
                 </div>
-                <div class="db-chart-container">
-                  <canvas id="bim-parts-volume-chart" class=""></canvas>
+                <div class="db-card db-card-chart">
+                  <canvas id="bim-parts-volume-chart" class="bar-chart"></canvas>
+                </div>
+                <div class="db-card db-card-list">
+                  <calcite-list id="ditio-images-list"></calcite-list>
+                  <calcite-pagination id="ditio-images-list-pager" start-item="1" page-size="4"></calcite-pagination>
                 </div>
               </div>
             </calcite-tab>
@@ -166,17 +182,28 @@
                   <calcite-chip id="vehicles-speed-max" slot="content-end" icon="car" scale="l"><calcite-loader scale="s" active></calcite-loader></calcite-chip>
                 </calcite-tile>
               </calcite-tile-group>
-            
-              <div class="db-list-container">
-                <calcite-list id="vehicles-list" selection-mode="single"></calcite-list>
+
+              <div class="flex-row">
+                <div class="db-card db-card-chart">
+                  <canvas id="vehicles-volume-chart" class="pie-chart"></canvas>
+                </div>
+                <div class="db-card db-card-list">
+                  <calcite-list id="vehicles-list"></calcite-list>
+                </div>
               </div>
-              
+          
             </calcite-tab>
         </calcite-tabs>
 
         </calcite-panel> <!-- Dashboard panel -->
-      
+ 
       </calcite-shell>
+
+      <!-- Ditio images preview modal -->
+      <calcite-modal id="ditio-image-modal">
+      <div slot="header" id="ditio-image-modal-title">Image name</div>
+      <img id="ditio-image-preview" src="" slot="content"/>
+    </calcite-modal>
   
     </div> <!-- Calcite theme -->
   </body>

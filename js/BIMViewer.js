@@ -1,5 +1,5 @@
 import { sections } from './config.js'
-import { updateBIMVisualizations } from './BIMVisualizations.js';
+import { updateBIMVisualizations } from './dashboard/BIMVisualizations.js';
 
 const clientId = 'yvANRrDF1Omdkgd8HXHdJwME2DWxNX9u';
 const clientSecret = 'TL8xzPUfzxOqGOHk';

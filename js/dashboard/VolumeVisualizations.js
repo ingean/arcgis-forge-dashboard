@@ -1,4 +1,4 @@
-import { drawPieChart } from "./utils/chart.js"
+import { createPieChart, createBarChart } from "../utils/chart.js"
 
 const volumeFSUrl = 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Volumberegninger/FeatureServer/0';
 let volumeData = {}
@@ -43,8 +43,27 @@ const updateVolumeChart = (section, phase) => {
   let d = volumeData[section][phase - 1]
   let data = [d['Prosjektert'] - d['Fjernet'], d['Fjernet'] , d['Lagt_til']]
   let labels = ['Gjenstår', 'Utgravd', 'Fylt ut']
+  createPieChart('volume-chart', {title: 'Fremdrift, grunnarbeid', label: "Volum", labels, data})
+}
 
-  drawPieChart('volume-chart', 'Fremdrift, grunnarbeid', labels, data);
+const updateVolumeRemovedChart = (section) => {
+  let labels = [], data = []
+  
+  for (let i = 0; i < 7; i++) {
+    labels.push('Fase ' + (i + 1))
+    data.push(volumeData[section][i]['Fjernet'])
+  }
+  createBarChart('volume-chart-removed', {title: 'Masse, fjernet', label: "Volum", labels, data})
+}
+
+const updateVolumeAddedChart = (section) => {
+  let labels = [], data = []
+  
+  for (let i = 0; i < 7; i++) {
+    labels.push('Fase ' + (i + 1))
+    data.push(volumeData[section][i]['Lagt_til'])
+  }
+  createBarChart('volume-chart-added', {title: 'Masse, lagt til', label: "Volum", labels, data})
 }
 
 const getVolumeValue = (section, phase, key) => {
@@ -59,5 +78,7 @@ export const updateVolumeVisualizations = async () => {
   if (!(section in volumeData)) await getVolumeData(section)
   updateVolumeTiles(section, phase)
   updateVolumeChart(section, phase)
+  updateVolumeRemovedChart(section)
+  updateVolumeAddedChart(section)
 }
 

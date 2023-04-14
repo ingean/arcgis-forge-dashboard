@@ -1,6 +1,6 @@
 import StreamLayer from "https://js.arcgis.com/4.26/@arcgis/core/layers/StreamLayer.js"
 import LabelClass from "https://js.arcgis.com/4.26/@arcgis/core/layers/support/LabelClass.js"
-import { updateStreamList } from "./streamList.js"
+import { updateStreamVisualizations } from "./dashboard/StreamVisualizations.js"
 import { copyDeep } from "./utils/object.js"
 
 // ArcGIS Velocity datastream based on simulation file using actual Skanska Ditio data
@@ -138,19 +138,21 @@ const createStreamLayer = (url, renderer, mode, offset, labelClass = null) => {
   return layer
 }
 
-const updateStreamData = (view, streamLayer) => {
+const getStreamData = (view, streamLayer) => {
   console.log('Henter stream data fra view')
 
   view.whenLayerView(streamLayer)
-  .then(streamLayerView => {
-    streamLayerView.queryFeatures()
-      .then(featureSet => {
-        if (featureSet.features.length > 0) updateStreamList(featureSet)
-        setTimeout(updateStreamData(view, streamLayer), 5000) // Refresh data every 5 sec
-      })
-      .catch(error => console.error(`Failed to query stream layer: ${error}`))
-  })
+  .then(streamLayerView => updateStreamData(streamLayerView))
   .catch(error => console.error(`Failed to get stream layer view: ${error}`))
+}
+
+const updateStreamData = (streamLayerView) => {
+  streamLayerView.queryFeatures()
+    .then(featureSet => {
+      if (featureSet.features.length > 0) updateStreamVisualizations(featureSet)
+      setTimeout(() => updateStreamData(streamLayerView), 5000) // Refresh data every 5 sec
+    })
+    .catch(error => console.error(`Failed to query stream layer: ${error}`))
 }
 
 export const addStreamLayers = (view) => {
@@ -160,6 +162,6 @@ export const addStreamLayers = (view) => {
   //view.map.addMany([maskinLayer, fillingLayer, maskinLayer2])
   view.map.addMany([maskinLayer])
 
-  updateStreamData(view, maskinLayer)  
+  getStreamData(view, maskinLayer)  
 }
 
