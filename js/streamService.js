@@ -147,6 +147,7 @@ const getStreamData = (view, streamLayer) => {
 }
 
 const updateStreamData = (streamLayerView) => {
+  if (!streamLayerView) return
   streamLayerView.queryFeatures()
     .then(featureSet => {
       if (featureSet.features.length > 0) updateStreamVisualizations(featureSet)

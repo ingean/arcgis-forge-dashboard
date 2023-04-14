@@ -90,7 +90,7 @@ document.getElementById('stream-check-skanska')
   let tab = document.getElementById('tab-tile-live')
   if (e.currentTarget.checked === true ) {
     maskinLayer = addMaskinLayer(maskinLayer, view)
-    tab.setAttribute('disabled', false)
+    tab.removeAttribute('disabled')
   } else {
     view.map.remove(maskinLayer)
     tab.setAttribute('disabled', true)
