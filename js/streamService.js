@@ -156,16 +156,6 @@ const updateStreamData = (streamLayerView) => {
     .catch(error => console.error(`Failed to query stream layer: ${error}`))
 }
 
-export const addStreamLayers = (view) => {
-  const maskinLayer = createStreamLayer(streamServiceURL, rendererMaskin, "relative-to-scene", 1)
-  //const maskinLayer2 = createStreamLayer(streamServiceURL2, rendererMaskin2, "relative-to-ground", 3)
-  //const fillingLayer = createStreamLayer(streamServiceURL, pointsRenderer, "relative-to-scene", 1, labelClass)
-  //view.map.addMany([maskinLayer, fillingLayer, maskinLayer2])
-  view.map.addMany([maskinLayer])
-
-  getStreamData(view, maskinLayer)  
-}
-
 export const addMaskinLayer = (streamLayer, view) => {
   if (!streamLayer) {
     streamLayer = createStreamLayer(streamServiceURL, rendererMaskin, "relative-to-scene", 1)
