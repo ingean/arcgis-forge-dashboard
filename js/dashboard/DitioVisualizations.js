@@ -1,5 +1,6 @@
 import { element } from "../utils/html.js"
 import { zoomTo } from "../main.js"
+import { format, parseISO } from 'https://esm.run/date-fns'
 
 const updateDitioList = (features) => {
   document.getElementById('ditio-images-list').innerHTML = "" // Empty existing list
@@ -20,7 +21,7 @@ const updateDitioList = (features) => {
       'calcite-block', 
       {
         heading: `${attr.taskName} (${attr.originDescription})`,
-        description: attr.createdDateTime,
+        description: formatDate(attr.createdDateTime),
         collapsible: true
       }, 
       [
@@ -63,6 +64,11 @@ const getDitioDataCount = (ditioLayer) => {
       .setAttribute("total-items", count)
     })
     .catch(error => console.error(`Failed to get ditio layer feature count: ${error}`))
+}
+
+const formatDate = (d) => {
+  d = parseISO(d)
+  return format(d, 'dd.MM.yyyy HH:mm:ss')
 }
 
 export const getDitioDataPage = (ditioLayer, page) => {

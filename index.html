@@ -29,7 +29,7 @@
 
           <div class="header-filters flex-row">
             <div class="header-filter-select flex-row">
-              <calcite-icon icon="clock-forward" text-label="Velg fase"></calcite-icon>
+              <calcite-icon icon="clock-forward" text-label="Velg fase" class="icon"></calcite-icon>
               <calcite-select id="phase-select" label="Velg fase">
                 <calcite-option value="1">Fase 1</calcite-option>
                 <calcite-option value="2">Fase 2</calcite-option>
@@ -41,7 +41,7 @@
               </calcite-select>    
             </div>
             <div class="header-filter-select flex-row">
-              <calcite-icon icon="bookmark" text-label="360 degree view"></calcite-icon>
+              <calcite-icon icon="bookmark" text-label="360 degree view" class="icon"></calcite-icon>
               <calcite-select id="section-select" label="Velg parsell">
                 <calcite-option value="1" disabled>P 01</calcite-option>
                 <calcite-option value="2" disabled>P 02</calcite-option>
@@ -101,7 +101,7 @@
         <div id="BIMviewDiv"></div> 
    
         <calcite-panel heading="Prosjektfremdrift" id="dashboard-container" slot="footer">
-          <calcite-icon icon="dashboard" text="Dashboard" slot="header-actions-start"></calcite-icon>
+          <calcite-action icon="dashboard" text="Dashboard" slot="header-actions-start"></calcite-action>
           
           <calcite-tabs>
             <calcite-tab-nav slot="title-group">

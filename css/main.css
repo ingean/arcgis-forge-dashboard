@@ -39,6 +39,10 @@ calcite-loader {
   align-items: center;
 }
 
+.icon {
+  margin-right: 5px;
+}
+
 #GISviewDiv {
   position:absolute;
   left: 0;
