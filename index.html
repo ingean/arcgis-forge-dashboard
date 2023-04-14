@@ -80,6 +80,7 @@
             <calcite-action data-action-id="basemaps" icon="basemap" text="Bakgrunnskart"></calcite-action>
             <calcite-action data-action-id="legend" icon="legend" text="Tegnforklaring"></calcite-action>
             <calcite-action data-action-id="slides" icon="slideshow" text="Lysbilder"></calcite-action>
+            <calcite-action data-action-id="settings" icon="gear" text="Innstillinger"></calcite-action>
           </calcite-action-bar>
     
           <!-- Panels for each map widget -->
@@ -95,6 +96,23 @@
           <calcite-panel heading="Lysbilder" height-scale="l" width-scale="m" data-panel-id="slides" hidden>
             <div id="slides-container"></div>
           </calcite-panel>
+          <calcite-panel heading="Innstillinger" height-scale="l" width-scale="m" data-panel-id="settings" hidden>
+            <calcite-block heading="Sanntidsdata" summary="Slå av og på strømmelag" collapsible open>
+              <calcite-icon slot="icon" icon="layers"></calcite-icon>
+              <calcite-label disable-spacing layout="inline">
+                Skanskamaskiner
+                <calcite-switch id="stream-check-skanska" class="stream-check" checked></calcite-switch>
+              </calcite-label>
+              <calcite-label disable-spacing layout="inline">
+                Visning av masse
+                <calcite-switch id="stream-check-volume" class="stream-check"></calcite-switch>
+              </calcite-label>
+              <calcite-label disable-spacing layout="inline">
+                Diverse andre maskiner
+                <calcite-switch id="stream-check-other" class="stream-check"></calcite-switch>
+              </calcite-label>
+            </calcite-block>
+          </calcite-panel>
         </calcite-shell-panel>
          
         <div id="GISviewDiv"></div>
@@ -107,7 +125,7 @@
             <calcite-tab-nav slot="title-group">
                 <calcite-tab-title selected>Terrengendringer</calcite-tab-title>
                 <calcite-tab-title>Utbygging</calcite-tab-title>
-                <calcite-tab-title>Massetransport 
+                <calcite-tab-title id="tab-tile-live">Massetransport 
                   <calcite-chip scale="s" class="db-chip">Live</calcite-chip>
                 </calcite-tab-title>
             </calcite-tab-nav>
