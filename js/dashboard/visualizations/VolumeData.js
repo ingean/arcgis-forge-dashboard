@@ -1,4 +1,5 @@
-import { createPieChart, createBarChart } from "../utils/chart.js"
+import { createPieChart, createBarChart } from "../../utils/chart.js"
+import { currentPhase, currentSection } from "../../changeSelection.js";
 
 const volumeFSUrl = 'https://services.arcgis.com/2JyTvMWQSnM2Vi8q/arcgis/rest/services/Volumberegninger/FeatureServer/0';
 let volumeData = {}
@@ -43,27 +44,30 @@ const updateVolumeChart = (section, phase) => {
   let d = volumeData[section][phase - 1]
   let data = [d['Prosjektert'] - d['Fjernet'], d['Fjernet'] , d['Lagt_til']]
   let labels = ['Gjenstår', 'Utgravd', 'Fylt ut']
-  createPieChart('volume-chart', {title: 'Fremdrift, grunnarbeid', label: "Volum", labels, data})
+  let bgColor = ['rgb(0,92,230,0.5)', 'rgb(255,255,255,0.5)', 'rgb(137,205,102,0.5)']
+  createPieChart('volume-chart', {title: 'Fremdrift, grunnarbeid', label: "Volum", labels, data, bgColor})
 }
 
 const updateVolumeRemovedChart = (section) => {
-  let labels = [], data = []
+  let labels = [], data = [], bgColor = []
   
   for (let i = 0; i < 7; i++) {
     labels.push('Fase ' + (i + 1))
     data.push(volumeData[section][i]['Fjernet'])
-  }
-  createBarChart('volume-chart-removed', {title: 'Masse, fjernet', label: "Volum", labels, data})
+    bgColor.push('rgb(255,255,255,0.5)')
+  } 
+  createBarChart('volume-chart-removed', {title: 'Masse, fjernet', label: "Volum", labels, data, bgColor})
 }
 
 const updateVolumeAddedChart = (section) => {
-  let labels = [], data = []
+  let labels = [], data = [], bgColor = []
   
   for (let i = 0; i < 7; i++) {
     labels.push('Fase ' + (i + 1))
     data.push(volumeData[section][i]['Lagt_til'])
+    bgColor.push('rgb(137,205,102,0.5)')
   }
-  createBarChart('volume-chart-added', {title: 'Masse, lagt til', label: "Volum", labels, data})
+  createBarChart('volume-chart-added', {title: 'Masse, lagt til', label: "Volum", labels, data, bgColor})
 }
 
 const getVolumeValue = (section, phase, key) => {
@@ -71,10 +75,10 @@ const getVolumeValue = (section, phase, key) => {
   return value ? value : 0
 }
 
-export const updateVolumeVisualizations = async () => { 
-  let phase = Number(document.getElementById('phase-select').value)
-  let section =  Number(document.getElementById('section-select').value)
-  
+export const updateVolumeVisualizations = async (section, phase) => { 
+  section = (section) ? section : currentSection()
+  phase = (phase) ? phase : currentPhase()
+
   if (!(section in volumeData)) await getVolumeData(section)
   updateVolumeTiles(section, phase)
   updateVolumeChart(section, phase)

@@ -63,14 +63,19 @@ const barChartOptions = {
 }
 
 const createChart = (chartOptions, id, params) => {
-  let options = mergeDeep(defaultChartOptions, chartOptions)
+  let options = mergeDeep(copyDeep(defaultChartOptions), copyDeep(chartOptions))
   options.data.datasets[0].data = params.data
   options.data.datasets[0].label = params.label
   options.data.labels = params.labels
   options.options.title.text = params.title
+
+  if (params.bgColor) {
+    options.data.datasets[0].backgroundColor = params.bgColor
+    options.data.datasets[0].borderColor = params.bgColor 
+  }
   
   const chartElement = document.getElementById(id)
-  return new Chart(chartElement, copyDeep(options))
+  return new Chart(chartElement, options)
 }
 
 export const updateChart = (chart, labels, data) => {

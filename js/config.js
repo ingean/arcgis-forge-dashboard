@@ -1,7 +1,20 @@
 
 export const sections = {
   1: { name: 'Åsbygda'},
-  3: { name: 'Kleggerud', slide: 2, docId: 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Z2VvdGVrXzIwMjEvUDAzLUtsZWdnZXJ1ZC1vdmVyZ2FuZ3NicnUucnZ0'},
+  3: { 
+    name: 'Kleggerud', 
+    slide: 2, 
+    docId: 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Z2VvdGVrXzIwMjEvUDAzLUtsZWdnZXJ1ZC1vdmVyZ2FuZ3NicnUucnZ0',
+    phases: {
+      1: { timeExtent: { start: new Date(2020, 5, 11) , end: new Date(2020, 5, 12)}},
+      2: { timeExtent: { start: new Date(2020, 5, 17) , end: new Date(2020, 5, 18)}},
+      3: { timeExtent: { start: new Date(2020, 5, 18) , end: new Date(2020, 5, 19)}},
+      4: { timeExtent: { start: new Date(2020, 5, 19) , end: new Date(2020, 5, 20)}},
+      5: { timeExtent: { start: new Date(2020, 5, 20) , end: new Date(2020, 5, 21)}},
+      6: { timeExtent: { start: new Date(2020, 5, 21) , end: new Date(2020, 5, 22)}},
+      7: { timeExtent: { start: new Date(2020, 5, 22) , end: new Date(2020, 5, 23)}}
+    }
+  },
   5: {
       name: 'Moselva',  
       slide: 3, 
@@ -21,5 +34,33 @@ export const sections = {
   10: { name: '', slide: 6, docId: 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Z2VvdGVrXzIwMjEvUDEwLUJla2tlc3R1YS1icnUucnZ0'},
   21: { name: 'Olum'}
 }
+
+export const dayToPhase = {
+  11: 1,
+  12: 2,
+  13: 2,
+  14: 3,
+  15: 3,
+  16: 4,
+  17: 4,
+  18: 5,
+  19: 5,
+  20: 6,
+  21: 6,
+  22: 7,
+  23: 7
+}
+
+export const phaseToDay = {
+  1: 11,
+  2: 12,
+  3: 14,
+  4: 16,
+  5: 18,
+  6: 20,
+  7: 22
+}
+
+
 
 

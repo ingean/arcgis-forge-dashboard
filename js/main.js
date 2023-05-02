@@ -1,19 +1,24 @@
 import WebScene from 'https://js.arcgis.com/4.26/@arcgis/core/WebScene.js'
 import SceneView from 'https://js.arcgis.com/4.26/@arcgis/core/views/SceneView.js'
+import TimeExtent from 'https://js.arcgis.com/4.26/@arcgis/core/TimeExtent.js'
 import ActionBar from './ActionBar.js'
 import MapTheme from './MapTheme.js'
 import * as OAuth2 from './OAuth2.js'
 import * as SlidesWidget from './slidesWidget.js'
 import * as BIMViewer from './BIMViewer.js'
-import { addMaskinLayer, addMaskinLayer2, addVolumeLayer } from './streamService.js'
-import { onPhaseChange, onSectionChange } from './changeSelection.js'
-import { updateVolumeVisualizations } from './dashboard/VolumeVisualizations.js'
-import { updateDitioVisualizations, getDitioDataPage } from './dashboard/DitioVisualizations.js'
-import { sections } from './config.js'
+import { addMaskinLayer, addMaskinLayer2, addVolumeLayer } from './streamLayers.js'
+import { onTimeExtentChange, onSectionChange } from './changeSelection.js'
+import { updateVolumeVisualizations } from './dashboard/visualizations/VolumeData.js'
+import { updateDitioVisualizations, getDitioDataPage } from './dashboard/visualizations/DitioData.js'
+import { onDashboardAccordionItemClick, onTabChange, onTimesliderAccordionItemClick } from './dashboard/dashboard.js'
+import { addVoxelLayer, initVoxelSlices } from './voxelLayer.js'
+import { initTimeSlider } from './TimeSlider.js'
+import { phaseToDay } from './config.js'
 
 let maskinLayer
 let maskinLayer2
-let volumeLayer 
+let volumeLayer
+let ditioLayer 
 
 const portal = await OAuth2.authenticate() //Authenticate with named user using OAuth2
 const webmapId = '6633c8f8fe0643d0a23e46447bc5339b' // Publicly available webmap
@@ -41,6 +46,17 @@ const view = new SceneView({
     left: 49
   }
 })
+const theme = new MapTheme(view, false) // Contains light and dark basemap
+const actionBar = new ActionBar(view)
+
+const timeSlider = initTimeSlider(view, new Date(2020, 5, 11), new Date(2020, 5, 23), 'days')
+timeSlider.watch("timeExtent", (timeExtent) => {
+  onTimeExtentChange(timeExtent)
+})
+
+export const currentTimeExtent = () => {
+  return timeSlider.timeExtent
+} 
 
 export const zoomToSlide = (slideNr) => {
   let slide = scene.presentation.slides.getItemAt(slideNr)
@@ -51,15 +67,26 @@ export const zoomTo = (extent) => {
   view.goTo(extent)
 }
 
+export const basemapOpacity = (opacity) => {
+  view.map.basemap.baseLayers.at(0).opacity = opacity
+}
 
-const theme = new MapTheme(view, false) // Contains light and dark basemap
-const actionBar = new ActionBar(view)
+export const onPhaseChange = () => {
+  let phase = Number(document.getElementById('phase-select').value)
+  let day = phaseToDay[phase]
+  let timeExtent = new TimeExtent(
+    { 
+      start: new Date(2020, 5, day), 
+      end: new Date(2020, 5, day + 1)
+    })
+  timeSlider.timeExtent = timeExtent
+}
 
 BIMViewer.init()
 maskinLayer = addMaskinLayer(maskinLayer, view)
+addVoxelLayer(view)
+initVoxelSlices(view)
 updateVolumeVisualizations()
-
-let ditioLayer 
 
 scene.when(() => {
   SlidesWidget.init(view, 'slides-container')
@@ -87,7 +114,7 @@ document.getElementById("ditio-images-list-pager")
 
 document.getElementById('stream-check-skanska')
 .addEventListener('calciteSwitchChange', e => {
-  let tab = document.getElementById('tab-tile-live')
+  let tab = document.getElementById('db-tab-title-stream')
   if (e.currentTarget.checked === true ) {
     maskinLayer = addMaskinLayer(maskinLayer, view)
     tab.removeAttribute('disabled')
@@ -114,3 +141,12 @@ document.getElementById('stream-check-other')
     view.map.remove(maskinLayer2)
   }
 })
+
+document.getElementById('db-tab-nav')
+.addEventListener('calciteTabsActivate', onTabChange)
+
+document.getElementById('dashboard-accordion-item')
+.addEventListener('calciteInternalAccordionItemSelect', onDashboardAccordionItemClick)
+
+document.getElementById('timeslider-accordion-item')
+.addEventListener('calciteInternalAccordionItemSelect', onTimesliderAccordionItemClick)

@@ -1,5 +1,6 @@
 import { sections } from './config.js'
-import { updateBIMVisualizations } from './dashboard/BIMVisualizations.js';
+import { updateBIMVisualizations } from './dashboard/visualizations/BIMData.js';
+import { currentPhase, currentSection } from './changeSelection.js';
 
 const clientId = 'yvANRrDF1Omdkgd8HXHdJwME2DWxNX9u';
 const clientSecret = 'TL8xzPUfzxOqGOHk';
@@ -156,11 +157,12 @@ function userFunction(pdb) {
   return data;
 }
 
-export const isolatePhase = () => {
-  let section =  Number(document.getElementById('section-select').value)
+export const isolatePhase = (section, phase) => {
+  section = (section) ? section : currentSection()
+  phase = (phase) ? phase : currentPhase()
+  
   if (section !== 5) return // Only section 5 has phase info in BIM-model
 
-  let phase =  Number(document.getElementById('phase-select').value)
   let modelIds = []
   
   for (var i = 1; i <= phase; i++) {
@@ -171,4 +173,8 @@ export const isolatePhase = () => {
 
 export const getModelProperties = () => {
   return modelProperties
+}
+
+export const resizeBIMViewer = () => {
+  viewer.resize()
 }

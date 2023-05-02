@@ -1,5 +1,5 @@
-import { element } from "../utils/html.js"
-import { createPieChart, createBarChart } from "../utils/chart.js"
+import { element } from "../../utils/html.js"
+import { createPieChart, createBarChart } from "../../utils/chart.js"
 
 const addListItem = (attr) => {
   let item = element(

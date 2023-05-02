@@ -1,5 +1,5 @@
-import { element } from "../utils/html.js"
-import { zoomTo } from "../main.js"
+import { element } from "../../utils/html.js"
+import { zoomTo } from "../../main.js"
 import { format, parseISO } from 'https://esm.run/date-fns'
 
 const updateDitioList = (features) => {
@@ -20,7 +20,7 @@ const updateDitioList = (features) => {
     let item = element(
       'calcite-block', 
       {
-        heading: `${attr.taskName} (${attr.originDescription})`,
+        heading: `${attr.taskName}`,
         description: formatDate(attr.createdDateTime),
         collapsible: true
       }, 

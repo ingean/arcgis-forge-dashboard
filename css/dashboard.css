@@ -1,5 +1,5 @@
-#dashboard-container {
-  height: 462px;
+#footer-container {
+  height: 210px;
   overflow-y: scroll;
 }
 
@@ -8,24 +8,24 @@
   color: var(--calcite-ui-text-3);
   background-color: var(--calcite-ui-foreground-1);
   box-shadow: 0 0 0 1px var(--calcite-ui-border-2);
-  margin: 10px 5px 0px 5px;
+  margin: 0px 5px 5px 5px;
+}
+
+.db-tiles {
+  margin: 0px 5px 5px 5px;
 }
 
 .db-card-chart {
-  width: 400px;
+  min-width: 340px;
   height: 250px;
   padding: 0.75rem;
 }
 
 .db-card-list {
-  width: 400px;
+  min-width: 350px;
+  max-width: 600px;
   height: 274px;
   overflow-y: scroll;
-}
-
-.pie-chart {
-  width: 400px;
-  height: 200px;
 }
 
 .ditio-image {

@@ -1,6 +1,6 @@
 import StreamLayer from "https://js.arcgis.com/4.26/@arcgis/core/layers/StreamLayer.js"
 import LabelClass from "https://js.arcgis.com/4.26/@arcgis/core/layers/support/LabelClass.js"
-import { updateStreamVisualizations } from "./dashboard/StreamVisualizations.js"
+import { updateStreamVisualizations } from "./dashboard/visualizations/StreamData.js"
 import { copyDeep } from "./utils/object.js"
 
 // ArcGIS Velocity datastream based on simulation file using actual Skanska Ditio data
