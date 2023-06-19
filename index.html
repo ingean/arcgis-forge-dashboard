@@ -72,18 +72,17 @@
         </div>
         
         <calcite-loader id="main-loader" active></calcite-loader>
-    
         <calcite-shell-panel slot="panel-start" detached>
-      
+    
           <calcite-action-bar slot="action-bar" intl-collapse="Minimere" intl-expand="Maksimere">
-            <calcite-action data-action-id="layers" icon="layers" text="Kartlag"></calcite-action>
+            <!--calcite-action data-action-id="layers" icon="layers" text="Kartlag"></calcite-action-->
             <calcite-action data-action-id="basemaps" icon="basemap" text="Bakgrunnskart"></calcite-action>
             <calcite-action data-action-id="legend" icon="legend" text="Tegnforklaring"></calcite-action>
             <calcite-action data-action-id="slides" icon="slideshow" text="Lysbilder"></calcite-action>
-            <calcite-action data-action-id="voxel-slice" icon="slice" text="Volumvisning"></calcite-action>
+            <!--calcite-action data-action-id="voxel-slice" icon="slice" text="Volumvisning"></calcite-action-->
             <calcite-action data-action-id="settings" icon="gear" text="Innstillinger"></calcite-action>
           </calcite-action-bar>
-    
+             
           <!-- Panels for each map widget -->
           <calcite-panel heading="Kartlag" height-scale="l" width-scale="m" data-panel-id="layers" hidden>
             <div id="layers-container"></div>
@@ -98,7 +97,7 @@
             <div id="slides-container"></div>
           </calcite-panel>
           <calcite-panel heading="Volumvisning" height-scale="l" width-scale="m" data-panel-id="voxel-slice" hidden>
-            <div id="content" style="padding: 10px; width:265px;">
+            <div id="voxel-sliders-container" style="padding: 10px; width:265px;" class="esri-widget esri-widget--panel">
               <calcite-label scale="s">
                 Øst - Vest: <calcite-slider id="sliceXAxisSlider" scale="s" min=0 step=1 snap label-handles></calcite-slider>
               </calcite-label>
@@ -127,11 +126,12 @@
               </calcite-label>
             </calcite-block>
           </calcite-panel>
+        
         </calcite-shell-panel>
-         
+        
         <div id="GISviewDiv"></div>
-        <div id="BIMviewDiv"></div> 
-   
+        <div id="BIMviewDiv"></div>
+         
         <!--calcite-panel heading="Prosjektfremdrift" id="dashboard-container" slot="footer">
           <calcite-action icon="dashboard" text="Dashboard" slot="header-actions-start"></calcite-action-->
         

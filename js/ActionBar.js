@@ -1,3 +1,4 @@
+import Expand from 'https://js.arcgis.com/4.26/@arcgis/core/widgets/Expand.js'
 import Bookmarks from 'https://js.arcgis.com/4.26/@arcgis/core/widgets/Bookmarks.js'
 import BasemapGallery from 'https://js.arcgis.com/4.26/@arcgis/core/widgets/BasemapGallery.js'
 import LayerList from 'https://js.arcgis.com/4.26/@arcgis/core/widgets/LayerList.js'
@@ -35,8 +36,25 @@ export default class ActionBar {
         view: view
       })
     }
-    view.ui.move("zoom", "bottom-right")
-    view.ui.add(this.widgets.fullscreen, "top-right")
+    
+    let layerListExpand = new Expand({
+      expandIcon: "layers",  
+      view: view,
+      content: this.widgets.layerList
+    })
+
+    let voxelSlidersExpand = new Expand({
+      expandIcon: "slice",  
+      view: view,
+      content: document.getElementById("voxel-sliders-container")
+    })
+
+    view.ui.add(this.widgets.fullscreen, "bottom-right")
+    view.ui.add(layerListExpand, "top-right")
+    view.ui.add(voxelSlidersExpand, "top-right")
+
+    view.ui.move("zoom", "bottom-left")
+
     document.querySelector("calcite-action-bar").addEventListener("click", this.handleActionBarClick)
   }
 
