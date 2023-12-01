@@ -4,7 +4,7 @@ import { updateStreamVisualizations } from "./dashboard/visualizations/StreamDat
 import { copyDeep } from "./utils/object.js"
 
 // ArcGIS Velocity datastream based on simulation file using actual Skanska Ditio data
-const streamServiceURL = "https://us-iot.arcgis.com/d8avj4l9dv7mdfsa/d8avj4l9dv7mdfsa/streams/arcgis/rest/services/JevnakerTestStream/StreamServer"
+const streamServiceURL = 'https://us-iot.arcgis.com/d8avj4l9dv7mdfsa/d8avj4l9dv7mdfsa/streams/arcgis/rest/services/Skanska_Maskindata/StreamServer'
 
 // ArcGIS Velocity datastream based on simulation file using fake data for visual effect
 const streamServiceURL2 = "https://us-iot.arcgis.com/d8avj4l9dv7mdfsa/d8avj4l9dv7mdfsa/streams/arcgis/rest/services/Gardermoen_Simulatorfil/StreamServer"
