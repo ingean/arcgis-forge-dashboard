@@ -2,9 +2,14 @@ import { sections } from './config.js'
 import { updateBIMVisualizations } from './dashboard/visualizations/BIMData.js';
 import { currentPhase, currentSection } from './changeSelection.js';
 
-const clientId = 'yvANRrDF1Omdkgd8HXHdJwME2DWxNX9u';
-const clientSecret = 'TL8xzPUfzxOqGOHk';
-const tokenURL = 'https://developer.api.autodesk.com/authentication/v1/authenticate';
+const clientId = 'yvANRrDF1Omdkgd8HXHdJwME2DWxNX9u'
+const clientSecret = 'TL8xzPUfzxOqGOHk'
+//const tokenURL = 'https://developer.api.autodesk.com/authentication/v1/authenticate'
+
+
+//const clientId = '6dzViv7SzGuiKqXGRJWTDoGY56Hc3vTu7sAByLG0sYfAX4Kf'
+//const clientSecret = 'HTs0Q8AjMFO8WfueUJ8pbFGuao9YYZxgVxE4Krbtl5Fk7meU758gctYR11N3OFnJ'
+const tokenURL = 'https://developer.api.autodesk.com/authentication/v2/token'
 
 let accessToken = '';
 let viewer;
@@ -44,7 +49,8 @@ const getForgeToken = (callback) => {
   data.append("client_id", clientId);
   data.append("client_secret", clientSecret);
   data.append("grant_type", "client_credentials");
-  data.append("scope", "code:all data:write data:read bucket:create bucket:delete bucket:read");
+  //data.append("scope", "code:all data:write data:read bucket:create bucket:delete bucket:read");
+  data.append("scope", "viewables:read");
 
   fetch(tokenURL, {
     "method": 'POST',
