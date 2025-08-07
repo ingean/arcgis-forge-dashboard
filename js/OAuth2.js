@@ -3,7 +3,8 @@ import Portal from 'https://js.arcgis.com/4.26/@arcgis/core/portal/Portal.js'
 import OAuthInfo from 'https://js.arcgis.com/4.26/@arcgis/core/identity/OAuthInfo.js'
 import esriId from 'https://js.arcgis.com/4.26/@arcgis/core/identity/IdentityManager.js'
 
-const appId = 'xOO8O9CJoCmBSh0h' // AppId for arcgis-forge-dashboard (Dev folder at geodata.maps.arcgis.com) 
+//const appId = 'xOO8O9CJoCmBSh0h' // AppId for arcgis-forge-dashboard (Dev folder at geodata.maps.arcgis.com) 
+const appId = 'w8MteBiiYAwXiNdn'
 
 const info = new OAuthInfo({
   appId,
